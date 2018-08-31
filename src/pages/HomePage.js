@@ -72,26 +72,35 @@ class HomePage extends Component {
     chordTones: [[], []],
     currScale: []
   };
-  findCommonNotes() {
+  findHighlights() {
     if (this.state.chordOne != "null" && this.state.chordTwo != "null") {
-      var chordOne = this.props.contextProp.makeScale(
+      var l = this.props.contextProp.findCommonNotes(
         this.state.chordOne,
-        this.state.chordOneType
-      );
-      var chordTwo = this.props.contextProp.makeScale(
+        this.state.chordOneType,
         this.state.chordTwo,
         this.state.chordTwoType
       );
-      l1 = [];
-      l2 = [];
-      for (var i = 0; i < 7; i++) {
-        for (var j = 0; j < 7; j++) {
-          if (chordOne[i] === chordTwo[j]) {
-            l1.push([chordOne[i], i + 1]);
-            l2.push([chordTwo[j], j + 1]);
-          }
-        }
+      var l3 = [];
+      console.log(l.length);
+      console.log(l);
+      for (var i = 0; i < l[0].length; i++) {
+        l3.push(l[0][i][0]);
       }
+      return l3;
+    } else {
+      return [];
+    }
+  }
+  findCommonNotes() {
+    if (this.state.chordOne != "null" && this.state.chordTwo != "null") {
+      var l = this.props.contextProp.findCommonNotes(
+        this.state.chordOne,
+        this.state.chordOneType,
+        this.state.chordTwo,
+        this.state.chordTwoType
+      );
+      var l1 = l[0];
+      var l2 = l[1];
       return (
         <View
           style={{
@@ -152,7 +161,7 @@ class HomePage extends Component {
           <Text>Chord Tones (1,3,5,7)</Text>
         </View>
       );
-    } else if (chordOne != "null" || chordTwo != "null") {
+    } else if (this.state.chordOne != "null" || this.state.chordTwo != "null") {
       return <Text>select another chord</Text>;
     } else {
       return <Text>select two chords</Text>;
@@ -315,8 +324,17 @@ class HomePage extends Component {
             })}
           </View>
         </Modal>
-        <TouchableOpacity onPress={() => this.setState({ showTab: true })}>
-          <Text>Show Tab</Text>
+        <TouchableOpacity
+          style={{
+            height: 26,
+            width: 90,
+            borderRadius: 60,
+            borderWidth: 1,
+            marginBottom: 20
+          }}
+          onPress={() => this.setState({ showTab: true })}
+        >
+          <Text style={{ textAlign: "center" }}>Show Tab</Text>
         </TouchableOpacity>
         <Modal
           visible={this.state.showTab}
@@ -326,7 +344,7 @@ class HomePage extends Component {
             <TouchableOpacity onPress={() => this.setState({ showTab: false })}>
               <Icon name={"arrow-left"} size={40} color={"black"} />
             </TouchableOpacity>
-            <GuitarTab highlightList={[]} />
+            <GuitarTab highlightList={this.findHighlights()} />
           </View>
         </Modal>
       </ScrollView>

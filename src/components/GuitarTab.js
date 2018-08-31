@@ -55,7 +55,7 @@ highlightList = list of notes to highlight
       "pink",
       "orange",
       "yellow",
-      "powder-blue"
+      "purple"
     ];
     highlightFound = false;
     if (this.props.highlightList.length > 0) {

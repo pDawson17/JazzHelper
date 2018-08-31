@@ -37,6 +37,26 @@ const majorSubs = [
 ];
 class KeyProvider extends Component {
   state = { overlap: [] };
+  findCommonNotes(chordOne, chordOneType, chordTwo, chordTwoType) {
+    if (chordOne != "null" && chordTwo != "null") {
+      var cOne = this.makeScale(chordOne, chordOneType);
+      var cTwo = this.makeScale(chordTwo, chordTwoType);
+      l1 = [];
+      l2 = [];
+      for (var i = 0; i < 7; i++) {
+        for (var j = 0; j < 7; j++) {
+          if (cOne[i] === cTwo[j]) {
+            l1.push([cOne[i], i + 1]);
+            l2.push([cTwo[j], j + 1]);
+          }
+        }
+      }
+      l3 = [];
+      l3.push(l1);
+      l3.push(l2);
+      return l3;
+    }
+  }
   makeTwoFiveOne(chord, chordType) {
     if (chord !== "null") {
       //251 structure: rootnote, Minor/Major/Dominant, added notes (b9 etc)
@@ -119,7 +139,9 @@ class KeyProvider extends Component {
           makeScale: (chord, chordType) => this.makeScale(chord, chordType),
           makeTwoFiveOne: (chord, chordType) =>
             this.makeTwoFiveOne(chord, chordType),
-          setOverlap: list => this.setState({ overlap: list })
+          setOverlap: list => this.setState({ overlap: list }),
+          findCommonNotes: (chordOne, chordOneType, chordTwo, chordTwoType) =>
+            this.findCommonNotes(chordOne, chordOneType, chordTwo, chordTwoType)
         }}
       >
         {this.props.children}
