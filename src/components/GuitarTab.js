@@ -38,7 +38,7 @@ export default class GuitarTab extends Component {
         break;
       }
     }
-    for (var j = 0; j < 24; j++) {
+    for (var j = 0; j < 25; j++) {
       stringNotes.push(keys[(i + j) % 12]);
     }
     return stringNotes;
@@ -48,14 +48,15 @@ props:
 highlightList = list of notes to highlight
 */
   checkHighlight(item) {
+    //TODO find appropriate color scheme
     const colorList = [
-      "red",
-      "green",
-      "blue",
-      "pink",
-      "orange",
-      "yellow",
-      "purple"
+      "#ff0000",
+      "#0CFDA7",
+      "#ff00fa",
+      "#ffb600",
+      "#ffee00",
+      "#00B8FF",
+      "#00ffd0"
     ];
     highlightFound = false;
     if (this.props.highlightList.length > 0) {
@@ -63,6 +64,7 @@ highlightList = list of notes to highlight
         if (item === this.props.highlightList[i]) {
           return colorList[i];
           highlightFound = true;
+          break;
         }
       }
     } else {
@@ -79,6 +81,7 @@ highlightList = list of notes to highlight
     var G = this.generateString("G");
     var B = this.generateString("B");
     var count = [
+      "",
       1,
       2,
       3,

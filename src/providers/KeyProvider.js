@@ -17,24 +17,6 @@ const majorScale = {
   "G#/Ab": ["G#/Ab", "A#/Bb", "C", "C#/Db", "D#/Eb", "F", "G"],
   "A#/Bb": ["A#/Bb", "C", "D", "D#/Eb", "F", "G", "A"]
 };
-const minorSubs = [
-  ["Minor", ""],
-  ["Half-Diminished", ""],
-  ["Major", "#5"],
-  ["Minor", ""],
-  ["Dominant", ""],
-  ["Major", ""],
-  ["Diminished", ""]
-];
-const majorSubs = [
-  ["Major", ""],
-  ["Minor", ""],
-  ["Minor", ""],
-  ["Major", ""],
-  ["Dominant", ""],
-  ["Minor", ""],
-  ["Half-Diminished", ""]
-];
 class KeyProvider extends Component {
   state = { overlap: [] };
   findCommonNotes(chordOne, chordOneType, chordTwo, chordTwoType) {
@@ -60,17 +42,20 @@ class KeyProvider extends Component {
   makeTwoFiveOne(chord, chordType) {
     if (chord !== "null") {
       //251 structure: rootnote, Minor/Major/Dominant, added notes (b9 etc)
+      //twoFiveOne list structure: 0-2 are 2-5-1, 3 is root scale
       var twoFiveOne = [];
       if (chordType === "Major") {
         const newChord = this.makeScale(chord, "Major");
         twoFiveOne.push([newChord[1], "Minor", ""]);
         twoFiveOne.push([newChord[4], "Dominant", ""]);
         twoFiveOne.push([newChord[0], "Major", ""]);
+        twoFiveOne.push(newChord);
       } else {
         newChord = this.makeScale(chord, "Minor");
         twoFiveOne.push([newChord[1], "Half-Diminished", ""]);
         twoFiveOne.push([newChord[4], "Dominant", ""]);
         twoFiveOne.push([newChord[0], "Minor", ""]);
+        twoFiveOne.push(newChord);
       }
       return twoFiveOne;
     }
@@ -113,7 +98,11 @@ class KeyProvider extends Component {
           break;
         }
       }
-      newScale[ls[i] - 1] = allNotes[(j + mod) % 12];
+      if (j != 0) {
+        newScale[ls[i] - 1] = allNotes[(j + mod) % 12];
+      } else {
+        newScale[ls[i] - 1] = allNotes[11];
+      }
     }
     return newScale;
   }
@@ -121,7 +110,7 @@ class KeyProvider extends Component {
     if (chordType === "Dominant") {
       var chordOne = this.convertScale("b", [7], majorScale[chord]);
     } else if (chordType === "Minor") {
-      var chordOne = this.convertScale("b", [3, 5, 7], majorScale[chord]);
+      var chordOne = this.convertScale("b", [3, 6, 7], majorScale[chord]);
     } else if (chordType === "Diminished") {
       var chordOne = this.convertScale("b", [3, 5, 6], majorScale[chord]);
     } else if (chordType === "Half-Diminished") {
@@ -137,6 +126,8 @@ class KeyProvider extends Component {
         value={{
           state: this.state,
           makeScale: (chord, chordType) => this.makeScale(chord, chordType),
+          convertScale: (interval, ls, curr) =>
+            this.convertScale(interval, ls, curr),
           makeTwoFiveOne: (chord, chordType) =>
             this.makeTwoFiveOne(chord, chordType),
           setOverlap: list => this.setState({ overlap: list }),

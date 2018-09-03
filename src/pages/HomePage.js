@@ -81,8 +81,6 @@ class HomePage extends Component {
         this.state.chordTwoType
       );
       var l3 = [];
-      console.log(l.length);
-      console.log(l);
       for (var i = 0; i < l[0].length; i++) {
         l3.push(l[0][i][0]);
       }
@@ -181,7 +179,10 @@ class HomePage extends Component {
             flexDirection: "row"
           }}
         >
-          <TouchableOpacity onPress={() => this.props.navigation.openDrawer()}>
+          <TouchableOpacity
+            onPress={() => this.props.navigation.openDrawer()}
+            style={{ marginLeft: 10 }}
+          >
             <Icon name={"align-justify"} size={40} color={"white"} />
           </TouchableOpacity>
           <Text style={{ fontSize: 38, color: "white", paddingLeft: 22 }}>
