@@ -47,6 +47,13 @@ const majorChord = {
   "A#/Bb": ["A#/Bb", "C", "D", "D#/Eb", "F", "G", "A"]
 };
 
+const soloingOptions = {
+  Major: ["Major Pentatonic", "Major Scale", "Lydian", "Mixolydian"],
+  Minor: ["Minor Pentatonic", "Minor Scale", "Dorian", "Phrygian"],
+  Dominant: ["Mixolydian"],
+  Diminished: ["Locrian"],
+  "Half-Diminished": ["Locrian"]
+};
 export default props => (
   <KeyConsumer>
     {contextProp => (
@@ -55,7 +62,43 @@ export default props => (
   </KeyConsumer>
 );
 class SoloingSuggestionPage extends Component {
-  state = { chord: "", chordType: "" };
+  state = {
+    chordOne: "",
+    chordTwoType: "",
+    chordTwo: "",
+    chordTwoType: "",
+    chordThree: "",
+    chordThreeType: ""
+  };
+  displayChordSelector(c, cType) {
+    return (
+      <View>
+        <Picker
+          style={{ height: 100, width: 140 }}
+          selectedValue={this.state.c}
+          onValueChange={value => this.setState({ c: value })}
+        >
+          {keys.map((item, index) => {
+            return <Picker.Item label={item} value={item} key={index} />;
+          })}
+        </Picker>
+        <Picker
+          style={{ height: 100, width: 140 }}
+          selectedValue={this.state.cType}
+          prompt={"select"}
+          onValueChange={value => this.setState({ cType: value })}
+        >
+          {chordTypes.map((item, index) => {
+            return <Picker.Item label={item} value={item} key={index} />;
+          })}
+        </Picker>
+      </View>
+    );
+  }
+  generateSoloingScales() {
+    //TODO chordModifiers
+    ls = [];
+  }
   render() {
     return (
       <View>
@@ -76,28 +119,12 @@ class SoloingSuggestionPage extends Component {
           </TouchableOpacity>
           <Text style={{ fontSize: 38, color: "white", paddingLeft: 22 }}>
             {" "}
-            Soloing Suggestions
+            Soloing
           </Text>
         </View>
-        <Picker
-          style={{ height: 100, width: 140 }}
-          selectedValue={this.state.chordOne}
-          onValueChange={value => this.setState({ chord: value })}
-        >
-          {keys.map((item, index) => {
-            return <Picker.Item label={item} value={item} key={index} />;
-          })}
-        </Picker>
-        <Picker
-          style={{ height: 100, width: 140 }}
-          selectedValue={this.state.chordOneType}
-          prompt={"select"}
-          onValueChange={value => this.setState({ chordType: value })}
-        >
-          {chordTypes.map((item, index) => {
-            return <Picker.Item label={item} value={item} key={index} />;
-          })}
-        </Picker>
+        <View style={{ alignItems: "center" }}>
+          {this.displayChordSelector("chordOne", "chordOneType")}
+        </View>
       </View>
     );
   }

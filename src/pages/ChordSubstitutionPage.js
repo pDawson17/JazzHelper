@@ -119,7 +119,7 @@ class ChordSubstitutionPage extends Component {
           </Text>
           {chordSubs.map((item, index) => {
             return (
-              <View>
+              <View style={{ alignItems: "center" }}>
                 <Text style={{ fontSize: 18, marginTop: 10 }}>
                   {chordSubs[index][0]} {chordSubs[index][1]}
                 </Text>

@@ -1,0 +1,6 @@
+--Jamie Abersold -JAZZ REFERENCE
+--allow multiple chords in overlap, highlight all overlaps with underline color TouchableOpacity
+ask about tritone subs
+--add chord qualities and relevant scale types
+--voice leading from one chord to the next
+for me -cello drone
